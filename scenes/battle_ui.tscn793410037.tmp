@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://6vm3owp11bbm"]
+
+[ext_resource type="Script" uid="uid://cu4bs4hbeymck" path="res://scripts/battle_ui.gd" id="1_script"]
+
+[node name="BattleUI" type="Control" unique_id=82097141]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="PlayerHP" type="ProgressBar" parent="." unique_id=1251271171]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 70.0
+value = 100.0
+
+[node name="Label" type="Label" parent="PlayerHP" unique_id=69516139]
+layout_mode = 0
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = -2.0
+text = "Player HP"
+
+[node name="EnemyHP" type="ProgressBar" parent="." unique_id=1527260348]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 40.0
+offset_right = -50.0
+offset_bottom = 70.0
+grow_horizontal = 0
+value = 100.0
+
+[node name="Label" type="Label" parent="EnemyHP" unique_id=1774957666]
+layout_mode = 0
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = -2.0
+text = "Enemy HP"
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1998619249]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer" unique_id=471702858]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CurseLabel" type="Label" parent="CenterContainer/VBox" unique_id=17419711]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+horizontal_alignment = 1
+
+[node name="QuestionLabel" type="Label" parent="CenterContainer/VBox" unique_id=408492195]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Get Ready!"
+horizontal_alignment = 1
+
+[node name="AnswerInput" type="LineEdit" parent="CenterContainer/VBox" unique_id=1420145949]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Type your answer here..."
+alignment = 1
+
+[node name="TimerBar" type="ProgressBar" parent="CenterContainer/VBox" unique_id=1373418960]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="TimerLabel" type="Label" parent="CenterContainer/VBox" unique_id=1688444709]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "5"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="CenterContainer/VBox" unique_id=1895320948]
+layout_mode = 2
+text = "Retry"
+
+[node name="StatusLabel" type="Label" parent="." unique_id=2062925626]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 100.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1

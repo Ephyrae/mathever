@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://2k76gcmxwf3v"]
+
+[ext_resource type="Script" uid="uid://bgpjemxjgppyi" path="res://scripts/enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c3tvuw0nla2pe" path="res://assets/generated/enemy_army_1_frame_0.png" id="2_neq0i"]
+
+[node name="Enemy" type="Node2D" unique_id=1702927789]
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=54246941]
+position = Vector2(-0.9999962, 2.9999847)
+scale = Vector2(1.6270566, 1.9260806)
+texture = ExtResource("2_neq0i")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=930392432]
