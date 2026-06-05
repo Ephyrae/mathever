@@ -272,6 +272,7 @@ func show_retry_button() -> void:
 		retry_button.grab_focus()
 
 func restore_ui_visibility() -> void:
+	main_vbox.show()
 	question_label.show()
 	question_label.modulate.a = 1.0
 	timer_label.show()

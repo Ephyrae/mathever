@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://d176lrvsts4vx"
+path="res://.godot/imported/Water Run 1.ogg-ab6653118a1cebdd077fb3bbbd5261a6.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Footsteps/Water/Water Run 1.ogg"
+dest_files=["res://.godot/imported/Water Run 1.ogg-ab6653118a1cebdd077fb3bbbd5261a6.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

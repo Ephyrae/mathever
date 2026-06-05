@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dc3nuow3711la"
+path="res://.godot/imported/Dirt Chain Jump.ogg-b509e19414ec1ee8e773ecf18ce3bc1c.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Footsteps/Dirt/Dirt Chain Jump.ogg"
+dest_files=["res://.godot/imported/Dirt Chain Jump.ogg-b509e19414ec1ee8e773ecf18ce3bc1c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -2,8 +2,8 @@ extends Node2D
 class_name CombatManager
 
 @onready var math_manager: MathManager = $MathManager
-@onready var player: Player = $Player
-@onready var enemy: Enemy = $Enemy
+@onready var player: Node2D = $Player
+@onready var enemy: Node2D = $Enemy
 @onready var ui: Control = $CanvasLayer/BattleUI
 
 var current_difficulty: MathManager.Difficulty = MathManager.Difficulty.ARMY1
@@ -44,6 +44,9 @@ var army_data: Dictionary = {
 }
 
 func _ready() -> void:
+	# Start background music
+	SoundManager.play_bgm(SoundManager.BGM_VILLAGE, -10)
+	
 	ui.answer_submitted.connect(_on_answer_submitted)
 	ui.retry_requested.connect(reset_entire_game)
 	player.health_changed.connect(ui.update_player_hp)
@@ -119,7 +122,7 @@ func handle_correct_answer() -> void:
 func handle_wrong_answer() -> void:
 	var dmg: int = enemy.get_damage()
 	player.take_damage(dmg)
-	ui.show_message("Wrong or Timed out! -" + str(dmg) + " HP")
+	ui.show_message("-" + str(dmg) + " HP")
 	
 	if current_question.has("curse") and current_question["curse"] != "":
 		apply_curse_to_player(current_question["curse"])
@@ -175,11 +178,80 @@ func handle_enemy_defeat() -> void:
 		ui.show_intermission_congratulations(round_feedback + "\nStage Cleared!")
 		await get_tree().create_timer(3.0).timeout
 		
+		# Play cutscene after every encounter except the final boss
+		await play_cutscene()
+			
 		start_battle()
 	else:
 		ui.show_final_victory_screen()
 		await get_tree().create_timer(3.0).timeout
 		ui.show_retry_button()
+
+func play_cutscene() -> void:
+	print("Starting cutscene sequence...")
+	is_transitioning = true
+	
+	# Reference nodes from the current node (Main/CombatManager)
+	var background = get_node_or_null("Background")
+	var canvas_layer = get_node_or_null("CanvasLayer")
+	var main_camera = get_node_or_null("Camera2D")
+	
+	# Hide gameplay elements
+	if background: background.hide()
+	if canvas_layer: canvas_layer.hide()
+	if player: player.hide()
+	if enemy: enemy.hide()
+	
+	# Instance and setup cutscene
+	var cutscene_path: String = "res://scenes/cutscene.tscn"
+	if not FileAccess.file_exists(cutscene_path):
+		print("Error: Cutscene file not found at ", cutscene_path)
+		_finish_cutscene()
+		return
+		
+	var cutscene_scene = load(cutscene_path)
+	var cutscene_instance = cutscene_scene.instantiate()
+	add_child(cutscene_instance)
+	
+	var cutscene_camera: Camera2D = cutscene_instance.get_node_or_null("Camera2D")
+	var anim_player: AnimationPlayer = cutscene_instance.get_node_or_null("AnimationPlayer2")
+	
+	if cutscene_camera:
+		cutscene_camera.make_current()
+	
+	if anim_player:
+		print("Playing cutscene animation...")
+		anim_player.play("encounter")
+		# Wait for animation to finish
+		await anim_player.animation_finished
+	else:
+		print("Warning: No AnimationPlayer2 found in cutscene")
+		await get_tree().create_timer(3.0).timeout
+	
+	# Cleanup
+	if cutscene_instance:
+		cutscene_instance.queue_free()
+	
+	# Restore gameplay
+	if main_camera:
+		main_camera.make_current()
+	
+	_finish_cutscene()
+	print("Cutscene sequence finished.")
+
+func _finish_cutscene() -> void:
+	var background = get_node_or_null("Background")
+	var canvas_layer = get_node_or_null("CanvasLayer")
+	
+	if background: background.show()
+	if canvas_layer: canvas_layer.show()
+	if player: player.show()
+	if enemy: enemy.show()
+	
+	if ui:
+		ui.restore_ui_visibility()
+	
+	is_transitioning = false
 
 func game_over() -> void:
 	is_active = false
@@ -189,8 +261,14 @@ func game_over() -> void:
 	ui.clear_transition_ui()
 	ui.clear_input()
 	
+	player.is_active = false
+	player.play_death()
+	
+	# Delay the blackout so we see the death animation fully
+	await get_tree().create_timer(2.5).timeout
 	ui.show_final_defeat_screen()
-	await get_tree().create_timer(1.5).timeout
+	
+	await get_tree().create_timer(1.0).timeout
 	ui.show_retry_button()
 
 func reset_entire_game() -> void:

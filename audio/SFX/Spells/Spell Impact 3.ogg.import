@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dq3gopcxs6pua"
+path="res://.godot/imported/Spell Impact 3.ogg-432d4375578a1086c34c7fec4f434826.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Spells/Spell Impact 3.ogg"
+dest_files=["res://.godot/imported/Spell Impact 3.ogg-432d4375578a1086c34c7fec4f434826.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

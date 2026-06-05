@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c7fhq04qcvr11"
+path="res://.godot/imported/River Loop.ogg-92b412b2151a9db18b3ae62c4fdf34ea.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Waterfalls Rivers and Streams/River Loop.ogg"
+dest_files=["res://.godot/imported/River Loop.ogg-92b412b2151a9db18b3ae62c4fdf34ea.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

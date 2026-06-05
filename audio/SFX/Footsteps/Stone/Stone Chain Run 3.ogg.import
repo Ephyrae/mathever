@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://d2xiu4pl4p8mq"
+path="res://.godot/imported/Stone Chain Run 3.ogg-941ce6aff2af404f3d34b585035c5b04.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Footsteps/Stone/Stone Chain Run 3.ogg"
+dest_files=["res://.godot/imported/Stone Chain Run 3.ogg-941ce6aff2af404f3d34b585035c5b04.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

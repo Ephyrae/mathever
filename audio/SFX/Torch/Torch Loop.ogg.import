@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://hj5d1nwcfave"
+path="res://.godot/imported/Torch Loop.ogg-8f1d269edcc1207871752a6d92de1a4b.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Torch/Torch Loop.ogg"
+dest_files=["res://.godot/imported/Torch Loop.ogg-8f1d269edcc1207871752a6d92de1a4b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

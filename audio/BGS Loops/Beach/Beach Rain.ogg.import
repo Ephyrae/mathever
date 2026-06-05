@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c465f3111v78w"
+path="res://.godot/imported/Beach Rain.ogg-4e818874ff81c44100b1fba56dad94fa.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/BGS Loops/Beach/Beach Rain.ogg"
+dest_files=["res://.godot/imported/Beach Rain.ogg-4e818874ff81c44100b1fba56dad94fa.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

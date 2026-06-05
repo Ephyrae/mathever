@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://buo3hoyu8qayx"
+path="res://.godot/imported/Stone Walk 1.ogg-13ab57346c71b0d9b28b0684287023f8.oggvorbisstr"
+
+[deps]
+
+source_file="res://audio/SFX/Footsteps/Stone/Stone Walk 1.ogg"
+dest_files=["res://.godot/imported/Stone Walk 1.ogg-13ab57346c71b0d9b28b0684287023f8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
