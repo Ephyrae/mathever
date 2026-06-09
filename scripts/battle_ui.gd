@@ -289,3 +289,4 @@ func _on_retry_pressed() -> void:
 	retry_button.hide()
 	restore_ui_visibility()
 	retry_requested.emit()
+	SoundManager.play_bgm(SoundManager.BGM_VILLAGE,-10,0.5)

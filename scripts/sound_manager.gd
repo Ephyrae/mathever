@@ -7,6 +7,8 @@ const SFX_AXE = "res://art/axe.ogg"
 const SFX_BLOCK = "res://art/block.ogg"
 const SFX_ENEMY_ATTACK = "res://art/enemy_attack.ogg"
 const SFX_ENEMY_BLOCK = "res://art/enemy_block.ogg"
+
+#warrior sfx
 const SFX_SLASHES = [
 	"res://audio/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 1.ogg",
 	"res://audio/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.ogg",
@@ -18,6 +20,11 @@ const SFX_HIT = [
 	"res://audio/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Impact Hit 3.ogg"
 ]
 const SFX_DEATH = "res://audio/UI/JDSherbert - Ultimate UI SFX Pack - Cancel - 2.ogg"
+
+#boss1 sfx
+const SFX_E1SLASH = "res://audio/SFX/Spells/Ice Freeze 2.ogg"
+const SFX_E1HIT = "res://audio/SFX/Spells/Spell Impact 2.ogg"
+const SFX_E1DEATH = "res://audio/SFX/Spells/Ice Wall 2.ogg"
 
 var bgm_player: AudioStreamPlayer
 var sfx_players: Array[AudioStreamPlayer] = []

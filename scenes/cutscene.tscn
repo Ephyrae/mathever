@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dcr4xr5xgefxg"]
 
-[ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://art/background.png" id="1_a320b"]
+[ext_resource type="Texture2D" uid="uid://86rc0ptb7lvl" path="res://assets/backgrounds/background 1.png" id="1_0sipp"]
 [ext_resource type="Texture2D" uid="uid://deg2n2y0fmc67" path="res://assets/generated/player-Sheet.png" id="1_edmg7"]
 [ext_resource type="Script" uid="uid://clan5w3i5g32w" path="res://scenes/encounter.gd" id="2_0sipp"]
 
@@ -77,6 +77,18 @@ tracks/2/path = NodePath("Parallax2D/Background:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.1333333, 2, 4.9999995, 5.6, 6.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1.74, 1.74, 1),
+"update": 0,
+"values": [Vector2(512, 0), Vector2(512, 0), Vector2(306.5, 0), Vector2(-246, 0), Vector2(-246, 0), Vector2(-256, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Parallax2D/Background2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0, 1.1333333, 2, 4.9999995, 5.6, 6.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1.74, 1.74, 1),
 "update": 0,
@@ -426,11 +438,10 @@ scale = Vector2(4.5, 4.5)
 repeat_size = Vector2(256, 0)
 repeat_times = 5
 
-[node name="Background" type="Sprite2D" parent="Parallax2D" unique_id=1680776411]
-modulate = Color(0.4075654, 0.40756536, 0.40756533, 1)
-texture_repeat = 2
-position = Vector2(512, 0)
-texture = ExtResource("1_a320b")
+[node name="Background2" type="Sprite2D" parent="Parallax2D" unique_id=1221431358]
+modulate = Color(0.66245234, 0.6624523, 0.66245234, 1)
+scale = Vector2(0.44444445, 0.44444445)
+texture = ExtResource("1_0sipp")
 centered = false
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="." unique_id=1223553617]
