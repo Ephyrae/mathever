@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dqm2e6hyf558t"]
 
 [ext_resource type="Script" uid="uid://dynt88ra8tj3l" path="res://scripts/combat_manager.gd" id="1_script"]
-[ext_resource type="Script" uid="uid://u0rbp5p0guof" path="res://scripts/math_manager.gd" id="2_math"]
+[ext_resource type="Texture2D" uid="uid://b181eg63lj3sp" path="res://assets/backgrounds/cobblestone_3.png" id="3_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://86rc0ptb7lvl" path="res://assets/backgrounds/background 1.png" id="3_tefeu"]
 [ext_resource type="PackedScene" uid="uid://blaajeafdhr55" path="res://scenes/warrior.tscn" id="3_warrior"]
 [ext_resource type="PackedScene" uid="uid://2k76gcmxwf3v" path="res://scenes/boss.tscn" id="4_boss"]
@@ -11,9 +11,6 @@
 
 [node name="Main" type="Node2D" unique_id=1204826115]
 script = ExtResource("1_script")
-
-[node name="MathManager" type="Node" parent="." unique_id=1359894118]
-script = ExtResource("2_math")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=236334406]
 modulate = Color(0.66245234, 0.6624523, 0.66245234, 1)
@@ -30,17 +27,28 @@ position = Vector2(576, 600)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=2017947999]
 shape = SubResource("WorldBoundaryShape2D_1")
 
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1754676155]
+scale = Vector2(0.5, 0.5)
+repeat_size = Vector2(1000, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=748103116]
+self_modulate = Color(0.1728327, 0.17283267, 0.17283267, 1)
+position = Vector2(1512, 1496)
+texture = ExtResource("3_o6xl0")
+
 [node name="Player" parent="." unique_id=1232271370 instance=ExtResource("3_warrior")]
 unique_name_in_owner = true
 position = Vector2(247, 435)
 
 [node name="Enemy" parent="." unique_id=1491953704 instance=ExtResource("4_boss")]
 unique_name_in_owner = true
-position = Vector2(968, 402)
+position = Vector2(948, 402)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1504004927]
 
 [node name="BattleUI" parent="CanvasLayer" unique_id=237190646 instance=ExtResource("5_ui")]
 unique_name_in_owner = true
-visible = false
 metadata/_edit_lock_ = true
+
+[node name="MathManager" type="MathManager" parent="." unique_id=720999916]

@@ -2,7 +2,56 @@
 
 [ext_resource type="Script" uid="uid://bgpjemxjgppyi" path="res://scripts/enemy.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ccdp743yg5rjf" path="res://assets/generated/enemies/frostfiend/frosthit+death-Sheet.png" id="2_jncid"]
+[ext_resource type="Texture2D" uid="uid://d3lxuml824w2p" path="res://assets/generated/enemies/frostfiend/frostfiendattack-sheet.png" id="2_qnbj4"]
 [ext_resource type="Texture2D" uid="uid://bfrteercc4hpt" path="res://assets/generated/enemies/frostfiend/idle.png" id="3_qnbj4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ueo3c"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(7414, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_863od"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(6740, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh7ji"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(6066, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3xpi"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(5392, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w2ut"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(4718, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es0rk"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(4044, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq7oa"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(3370, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gqtx"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(2696, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6jog"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(2022, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02csv"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(1348, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_te2y6"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(674, 0, 674, 204)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbhct"]
+atlas = ExtResource("2_qnbj4")
+region = Rect2(0, 0, 674, 204)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r3bxh"]
 atlas = ExtResource("2_jncid")
@@ -168,6 +217,47 @@ region = Rect2(2873, 0, 169, 208)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ueo3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_863od")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh7ji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3xpi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5w2ut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es0rk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7oa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gqtx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6jog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02csv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_te2y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbhct")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r3bxh")
 }, {
 "duration": 1.0,
@@ -314,6 +404,6 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(-0.9999962, 2.9999847)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ueo3c")
-animation = &"death"
+animation = &"attack"
 autoplay = "idle"
 flip_h = true

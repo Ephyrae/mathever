@@ -28,6 +28,8 @@ func _ready() -> void:
 func _on_animation_finished() -> void:
 	if $AnimatedSprite2D.animation == slash_attack:
 		$AnimatedSprite2D.play("idle")
+	elif $AnimatedSprite2D.animation == "hit":
+		$AnimatedSprite2D.play("idle")
 
 func reset_properties() -> void:
 	current_health = max_health
@@ -40,6 +42,8 @@ func reset_properties() -> void:
 func take_damage(amount: int) -> void:
 	current_health = max(0, current_health - amount)
 	health_changed.emit(current_health, max_health)
+	if has_node("AnimatedSprite2D"):
+		$AnimatedSprite2D.play("hit")
 	SoundManager.play_random_sfx(SoundManager.SFX_HIT, 0.0, randf_range(1.1,1.3 ))
 
 func get_damage() -> int:

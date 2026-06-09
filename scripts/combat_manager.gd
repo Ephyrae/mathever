@@ -72,14 +72,14 @@ func setup_enemy() -> void:
 	ui.update_player_hp(player.current_health, player.max_health)
 
 func _process(delta: float) -> void:
-	if not is_active or is_transitioning:
+	if not is_active:
 		return
 		
 	var capped_delta = min(delta, 0.1)
 	timer -= capped_delta
 	ui.update_timer(timer, current_question["time"])
 	
-	if timer <= 0:
+	if timer <= 0 and not is_transitioning:
 		var last_second_input: String = ui.get_current_input_text()
 		if last_second_input != "" and last_second_input == current_question["answer"]:
 			ui.clear_input()
@@ -121,6 +121,7 @@ func handle_correct_answer() -> void:
 
 func handle_wrong_answer() -> void:
 	var dmg: int = enemy.get_damage()
+	enemy.play_attack()
 	player.take_damage(dmg)
 	ui.show_message("-" + str(dmg) + " HP")
 	

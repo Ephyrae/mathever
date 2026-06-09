@@ -12,8 +12,18 @@ var damage_modifier: int = 0
 var poison_ticks: int = 0
 var poison_damage: int = 4
 
+var original_position: Vector2 = Vector2.ZERO
+var is_attacking: bool = false
+var attack_move_distance: float = 39.0
+var attack_move_down_distance: float = 13.0
+
 func _ready() -> void:
 	reset_properties()
+	if has_node("AnimationPlayer"):
+		$AnimationPlayer.animation_finished.connect(_on_animation_finished_player)
+
+func _on_animation_finished_player(_anim_name: StringName) -> void:
+	_on_animation_finished()
 
 func reset_properties() -> void:
 	damage_modifier = 0
@@ -44,12 +54,31 @@ func get_damage() -> int:
 	return max(1, base_damage + damage_modifier)
 
 func play_attack() -> void:
+	is_attacking = true
+	original_position = position
+	
+	# Start movement animation if attack_move_distance is set
+	if attack_move_distance > 0.0 or attack_move_down_distance > 0.0:
+		var tween: Tween = create_tween()
+		tween.set_trans(Tween.TRANS_SINE)
+		tween.set_ease(Tween.EASE_IN_OUT)
+		
+		# Animate X position (move right)
+		if attack_move_distance > 0.0:
+			tween.tween_property(self, "position:x", position.x + attack_move_distance, 0)
+		
+		# Animate Y position (move down) in parallel
+		if attack_move_down_distance > 0.0:
+			tween.tween_property(self, "position:y", position.y + attack_move_down_distance, 0)
+	
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("attack"):
 		$AnimationPlayer.play("attack")
-		SoundManager.play_sfx(SoundManager.SFX_ENEMY_ATTACK)
+		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
 	elif has_node("AnimatedSprite2D") and $AnimatedSprite2D.sprite_frames.has_animation("attack"):
+		if not $AnimatedSprite2D.animation_finished.is_connected(_on_animation_finished):
+			$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
 		$AnimatedSprite2D.play("attack")
-		SoundManager.play_sfx(SoundManager.SFX_ENEMY_ATTACK)
+		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
 
 func play_hit() -> void:
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("hit"):
@@ -76,11 +105,14 @@ func play_death() -> void:
 
 func _on_animation_finished() -> void:
 	if has_node("AnimatedSprite2D"):
-		if $AnimatedSprite2D.animation == "hit":
+		var current_anim: StringName = $AnimatedSprite2D.animation
+		if current_anim == "attack":
+			is_attacking = false
+			position = original_position
 			$AnimatedSprite2D.play("idle")
-		elif $AnimatedSprite2D.animation == "attack":
+		elif current_anim == "hit":
 			$AnimatedSprite2D.play("idle")
-		elif $AnimatedSprite2D.animation == "death":
+		elif current_anim == "death":
 			hide()
 
 func process_curse_turn() -> void:

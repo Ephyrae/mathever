@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Mathever Main"
+config/name="Mathever Main 4th iteration"
 run/main_scene="uid://dqm2e6hyf558t"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
