@@ -14,8 +14,8 @@ var poison_damage: int = 4
 
 var original_position: Vector2 = Vector2.ZERO
 var is_attacking: bool = false
-var attack_move_distance: float = 39.0
-var attack_move_down_distance: float = 13.0
+
+var active_sprite: AnimatedSprite2D = null
 
 func _ready() -> void:
 	reset_properties()
@@ -35,8 +35,30 @@ func setup(hp: int, n_name: String, _texture: Texture2D = null) -> void:
 	current_health = hp
 	enemy_name = n_name
 	
-	if has_node("Sprite2D") and _texture != null:
-		get_node("Sprite2D").texture = _texture
+	# Handle specific sprite nodes (Frosty, Darky, etc.)
+	active_sprite = null
+	for child in get_children():
+		if child is AnimatedSprite2D:
+			child.hide()
+			if child.name == n_name:
+				active_sprite = child
+	
+	if active_sprite:
+		active_sprite.show()
+		if active_sprite.sprite_frames.has_animation("idle"):
+			active_sprite.play("idle")
+		if not active_sprite.animation_finished.is_connected(_on_animation_finished):
+			active_sprite.animation_finished.connect(_on_animation_finished)
+	
+	# Fallback to Sprite2D if no specific AnimatedSprite2D is found
+	if has_node("Sprite2D"):
+		var sprite = get_node("Sprite2D")
+		if active_sprite:
+			sprite.hide()
+		else:
+			sprite.show()
+			if _texture != null:
+				sprite.texture = _texture
 		
 	health_changed.emit(current_health, max_health)
 
@@ -57,45 +79,25 @@ func play_attack() -> void:
 	is_attacking = true
 	original_position = position
 	
-	# Start movement animation if attack_move_distance is set
-	if attack_move_distance > 0.0 or attack_move_down_distance > 0.0:
-		var tween: Tween = create_tween()
-		tween.set_trans(Tween.TRANS_SINE)
-		tween.set_ease(Tween.EASE_IN_OUT)
-		
-		# Animate X position (move right)
-		if attack_move_distance > 0.0:
-			tween.tween_property(self, "position:x", position.x + attack_move_distance, 0)
-		
-		# Animate Y position (move down) in parallel
-		if attack_move_down_distance > 0.0:
-			tween.tween_property(self, "position:y", position.y + attack_move_down_distance, 0)
-	
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("attack"):
 		$AnimationPlayer.play("attack")
 		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
-	elif has_node("AnimatedSprite2D") and $AnimatedSprite2D.sprite_frames.has_animation("attack"):
-		if not $AnimatedSprite2D.animation_finished.is_connected(_on_animation_finished):
-			$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
-		$AnimatedSprite2D.play("attack")
+	elif active_sprite and active_sprite.sprite_frames.has_animation("attack"):
+		active_sprite.play("attack")
 		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
 
 func play_hit() -> void:
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("hit"):
 		$AnimationPlayer.play("hit")
-	elif has_node("AnimatedSprite2D") and $AnimatedSprite2D.sprite_frames.has_animation("hit"):
-		if not $AnimatedSprite2D.animation_finished.is_connected(_on_animation_finished):
-			$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
-		$AnimatedSprite2D.play("hit")
+	elif active_sprite and active_sprite.sprite_frames.has_animation("hit"):
+		active_sprite.play("hit")
 	SoundManager.play_sfx(SoundManager.SFX_E1HIT)
 
 func play_death() -> void:
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("death"):
 		$AnimationPlayer.play("death")
-	elif has_node("AnimatedSprite2D") and $AnimatedSprite2D.sprite_frames.has_animation("death"):
-		if not $AnimatedSprite2D.animation_finished.is_connected(_on_animation_finished):
-			$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
-		$AnimatedSprite2D.play("death")
+	elif active_sprite and active_sprite.sprite_frames.has_animation("death"):
+		active_sprite.play("death")
 	else:
 		# Fallback: simple fade out
 		var tween = create_tween()
@@ -104,14 +106,16 @@ func play_death() -> void:
 	SoundManager.play_sfx(SoundManager.SFX_E1DEATH)
 
 func _on_animation_finished() -> void:
-	if has_node("AnimatedSprite2D"):
-		var current_anim: StringName = $AnimatedSprite2D.animation
+	if active_sprite:
+		var current_anim: StringName = active_sprite.animation
 		if current_anim == "attack":
 			is_attacking = false
 			position = original_position
-			$AnimatedSprite2D.play("idle")
+			if active_sprite.sprite_frames.has_animation("idle"):
+				active_sprite.play("idle")
 		elif current_anim == "hit":
-			$AnimatedSprite2D.play("idle")
+			if active_sprite.sprite_frames.has_animation("idle"):
+				active_sprite.play("idle")
 		elif current_anim == "death":
 			hide()
 

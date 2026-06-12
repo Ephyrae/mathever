@@ -2,7 +2,7 @@ extends Node
 
 # SoundManager hahahaha
 
-const BGM_VILLAGE = "res://art/8_bit_iced_village_lofi.mp3"
+const BGM_FIGHT = "res://audio/BGS Loops/MathOST (3).wav"
 const SFX_AXE = "res://art/axe.ogg"
 const SFX_BLOCK = "res://art/block.ogg"
 const SFX_ENEMY_ATTACK = "res://art/enemy_attack.ogg"

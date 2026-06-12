@@ -5,6 +5,8 @@ class_name CombatManager
 @onready var player: Node2D = $Player
 @onready var enemy: Node2D = $Enemy
 @onready var ui: Control = $CanvasLayer/BattleUI
+@onready var backgrounds: Array[Sprite2D] = [$Background, $Background2, $Background3, $Background4]
+
 
 var current_difficulty: MathManager.Difficulty = MathManager.Difficulty.ARMY1
 var current_question: Dictionary = {}
@@ -15,28 +17,28 @@ var is_transitioning: bool = false
 var army_data: Dictionary = {
 	MathManager.Difficulty.ARMY1: {
 		"hp": 40,
-		"name": "Army 1",
+		"name": "Frosty",
 		"texture": preload("res://assets/generated/enemy_army_1_frame_0.png"),
 		"player_dmg": 10,
 		"enemy_dmg": 8
 	},
 	MathManager.Difficulty.ARMY2: {
 		"hp": 60,
-		"name": "Army 2",
+		"name": "Darky",
 		"texture": preload("res://assets/generated/enemy_army_2_frame_0.png"),
 		"player_dmg": 10,
 		"enemy_dmg": 12
 	},
 	MathManager.Difficulty.ARMY3: {
 		"hp": 70,
-		"name": "Army 3",
+		"name": "Sickly",
 		"texture": preload("res://assets/generated/enemy_boss_frame_0.png"),
 		"player_dmg": 14,
 		"enemy_dmg": 16
 	},
 	MathManager.Difficulty.BOSS: {
 		"hp": 100,
-		"name": "The Boss",
+		"name": "Sparky",
 		"texture": preload("res://art/tile_0121.png"),
 		"player_dmg": 20,
 		"enemy_dmg": 24
@@ -45,13 +47,14 @@ var army_data: Dictionary = {
 
 func _ready() -> void:
 	# Start background music
-	SoundManager.play_bgm(SoundManager.BGM_VILLAGE, -10)
+	SoundManager.play_bgm(SoundManager.BGM_FIGHT, -20)
 	
 	ui.answer_submitted.connect(_on_answer_submitted)
 	ui.retry_requested.connect(reset_entire_game)
 	player.health_changed.connect(ui.update_player_hp)
 	enemy.health_changed.connect(_on_enemy_health_changed)
 	
+	update_background_visibility()
 	start_battle()
 
 func start_battle() -> void:
@@ -70,6 +73,7 @@ func setup_enemy() -> void:
 	player.base_damage = data["player_dmg"]
 	ui.update_enemy_hp(enemy.current_health, enemy.max_health, enemy.enemy_name)
 	ui.update_player_hp(player.current_health, player.max_health)
+	update_background_visibility()
 
 func _process(delta: float) -> void:
 	if not is_active:
@@ -122,6 +126,12 @@ func handle_correct_answer() -> void:
 func handle_wrong_answer() -> void:
 	var dmg: int = enemy.get_damage()
 	enemy.play_attack()
+	
+	if current_difficulty == MathManager.Difficulty.BOSS:
+		var camera: Camera2D = get_node_or_null("Camera2D")
+		if camera and camera.has_method("apply_triple_shake"):
+			camera.apply_triple_shake()
+			
 	player.take_damage(dmg)
 	ui.show_message("-" + str(dmg) + " HP")
 	
@@ -188,6 +198,11 @@ func handle_enemy_defeat() -> void:
 		await get_tree().create_timer(3.0).timeout
 		ui.show_retry_button()
 
+func update_background_visibility() -> void:
+	for i in range(backgrounds.size()):
+		if backgrounds[i]:
+			backgrounds[i].visible = (i == int(current_difficulty))
+
 func play_cutscene() -> void:
 	print("Starting cutscene sequence...")
 	is_transitioning = true
@@ -221,8 +236,17 @@ func play_cutscene() -> void:
 		cutscene_camera.make_current()
 	
 	if anim_player:
-		print("Playing cutscene animation...")
-		anim_player.play("encounter")
+		var anim_name: String = "encounter"
+		match current_difficulty:
+			MathManager.Difficulty.ARMY2:
+				anim_name = "encounter"
+			MathManager.Difficulty.ARMY3:
+				anim_name = "encounter_2"
+			MathManager.Difficulty.BOSS:
+				anim_name = "encounter_3"
+		
+		print("Playing cutscene animation: ", anim_name)
+		anim_player.play(anim_name)
 		# Wait for animation to finish
 		await anim_player.animation_finished
 	else:
@@ -261,6 +285,7 @@ func game_over() -> void:
 	timer = 0.0
 	ui.clear_transition_ui()
 	ui.clear_input()
+
 	
 	player.is_active = false
 	player.play_death()
