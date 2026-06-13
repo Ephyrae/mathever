@@ -2,10 +2,8 @@ extends Camera2D
 
 @export var randomStrength: float = 7.0
 @export var shakeFade: float = 10
-@export var triple_shake_delays: Array[float] = [0.0, 0.4, 0.9]
 
-var rng = RandomNumberGenerator.new()
-
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var shake_strength: float = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,12 +11,6 @@ func _ready() -> void:
 
 func apply_shake() -> void:
 	shake_strength = randomStrength
-
-func apply_triple_shake() -> void:
-	for delay: float in triple_shake_delays:
-		if delay > 0:
-			await get_tree().create_timer(delay).timeout
-		apply_shake()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

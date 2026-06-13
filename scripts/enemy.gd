@@ -17,6 +17,15 @@ var is_attacking: bool = false
 
 var active_sprite: AnimatedSprite2D = null
 
+# Sound Placeholders - Set these in setup() or via CombatManager
+var sfx_attack: Variant = ""
+var sfx_hit: Variant = ""
+var sfx_death: Variant = ""
+
+var sfx_vol_attack: float = 0.0
+var sfx_vol_hit: float = 0.0
+var sfx_vol_death: float = 0.0
+
 func _ready() -> void:
 	reset_properties()
 	if has_node("AnimationPlayer"):
@@ -25,9 +34,16 @@ func _ready() -> void:
 func _on_animation_finished_player(_anim_name: StringName) -> void:
 	_on_animation_finished()
 
+var death_tween: Tween
+
 func reset_properties() -> void:
+	if death_tween and death_tween.is_valid():
+		death_tween.kill()
 	damage_modifier = 0
 	poison_ticks = 0
+	show()
+	modulate.a = 1.0
+	is_attacking = false
 
 func setup(hp: int, n_name: String, _texture: Texture2D = null) -> void:
 	reset_properties()
@@ -65,7 +81,6 @@ func setup(hp: int, n_name: String, _texture: Texture2D = null) -> void:
 func take_damage(amount: int) -> void:
 	current_health = max(0, current_health - amount)
 	health_changed.emit(current_health, max_health)
-	SoundManager.play_sfx(SoundManager.SFX_ENEMY_BLOCK)
 	
 	if current_health <= 0:
 		play_death()
@@ -81,17 +96,22 @@ func play_attack() -> void:
 	
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("attack"):
 		$AnimationPlayer.play("attack")
-		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
 	elif active_sprite and active_sprite.sprite_frames.has_animation("attack"):
 		active_sprite.play("attack")
-		SoundManager.play_sfx(SoundManager.SFX_E1SLASH)
+	
+	# attack sfx
+	if sfx_attack != null and str(sfx_attack) != "":
+		SoundManager.play_sfx(sfx_attack, sfx_vol_attack)
 
 func play_hit() -> void:
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("hit"):
 		$AnimationPlayer.play("hit")
 	elif active_sprite and active_sprite.sprite_frames.has_animation("hit"):
 		active_sprite.play("hit")
-	SoundManager.play_sfx(SoundManager.SFX_E1HIT)
+	
+	# hit sfx
+	if sfx_hit != null and str(sfx_hit) != "":
+		SoundManager.play_sfx(sfx_hit, sfx_vol_hit)
 
 func play_death() -> void:
 	if has_node("AnimationPlayer") and $AnimationPlayer.has_animation("death"):
@@ -100,10 +120,14 @@ func play_death() -> void:
 		active_sprite.play("death")
 	else:
 		# Fallback: simple fade out
-		var tween = create_tween()
-		tween.tween_property(self, "modulate:a", 0.0, 1.0)
-		tween.tween_callback(hide)
-	SoundManager.play_sfx(SoundManager.SFX_E1DEATH)
+		death_tween = create_tween()
+		death_tween.tween_interval(2.0)
+		death_tween.tween_property(self, "modulate:a", 0.0, 1.0)
+		death_tween.tween_callback(hide)
+	
+	# death sfx
+	if sfx_death != null and str(sfx_death) != "":
+		SoundManager.play_sfx(sfx_death, sfx_vol_death)
 
 func _on_animation_finished() -> void:
 	if active_sprite:
@@ -117,7 +141,8 @@ func _on_animation_finished() -> void:
 			if active_sprite.sprite_frames.has_animation("idle"):
 				active_sprite.play("idle")
 		elif current_anim == "death":
-			hide()
+			# Keep the final frame visible
+			pass
 
 func process_curse_turn() -> void:
 	if poison_ticks > 0:

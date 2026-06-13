@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bvfuvdsj7m7tq" path="res://assets/backgrounds/background 3.png" id="4_choun"]
 [ext_resource type="PackedScene" uid="uid://6vm3owp11bbm" path="res://scenes/battle_ui.tscn" id="5_ui"]
 [ext_resource type="Texture2D" uid="uid://bkit3g65sm1l0" path="res://assets/backgrounds/background 4.png" id="5_ya4ey"]
-[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="6_choun"]
+[ext_resource type="Script" uid="uid://wvbqfuckhmlc" path="res://scripts/camera_2d.gd" id="6_choun"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1"]
 

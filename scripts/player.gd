@@ -35,6 +35,7 @@ func reset_properties() -> void:
 	current_health = max_health
 	damage_modifier = 0
 	poison_ticks = 0
+	show()
 	health_changed.emit(current_health, max_health)
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.play("idle")

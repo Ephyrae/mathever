@@ -3,7 +3,8 @@ extends Node
 # SoundManager hahahaha
 
 const BGM_FIGHT = "res://audio/BGS Loops/MathOST (3).wav"
-const SFX_AXE = "res://art/axe.ogg"
+const BGM_WET = "res://audio/BGS Loops/Cave/Cave Rain.ogg"
+const BGM_CAVE = "res://audio/BGS Loops/Cave/Cave.ogg"
 const SFX_BLOCK = "res://art/block.ogg"
 const SFX_ENEMY_ATTACK = "res://art/enemy_attack.ogg"
 const SFX_ENEMY_BLOCK = "res://art/enemy_block.ogg"
@@ -26,6 +27,24 @@ const SFX_E1SLASH = "res://audio/SFX/Spells/Ice Freeze 2.ogg"
 const SFX_E1HIT = "res://audio/SFX/Spells/Spell Impact 2.ogg"
 const SFX_E1DEATH = "res://audio/SFX/Spells/Ice Wall 2.ogg"
 
+#boss2 sfx
+const SFX_E2SLASH = "res://audio/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 3.ogg"
+const SFX_E2HIT = [
+	"res://audio/SFX/Attacks/Darkhit1.mp3",
+	"res://audio/SFX/Attacks/Darkhit2.mp3"
+]
+const SFX_E2DEATH = "res://audio/SFX/Spells/Rock Wall 1.ogg"
+
+#boss3 sfx
+const SFX_E3SLASH = "res://audio/SFX/Attacks/Sword Attacks Hits and Blocks/Sword Attack 2.ogg"
+const SFX_E3HIT = "res://audio/SFX/Doors Gates and Chests/Chest Close 1.ogg"
+const SFX_E3DEATH = "res://audio/SFX/Spells/Waterspray 1.ogg"
+
+#boss4 sfx
+const SFX_E4SLASH = "res://audio/SFX/Attacks/Sparkyattack.mp3"
+const SFX_E4HIT = "res://audio/SFX/Spells/Spell Impact 2.ogg"
+const SFX_E4DEATH = "res://audio/SFX/Lightning_Spell.ogg"
+
 var bgm_player: AudioStreamPlayer
 var sfx_players: Array[AudioStreamPlayer] = []
 var max_sfx_count: int = 12
@@ -35,6 +54,7 @@ func _ready() -> void:
 	bgm_player = AudioStreamPlayer.new()
 	# Check if Music bus exists, otherwise use Master
 	bgm_player.bus = _get_valid_bus("Music")
+	bgm_player.finished.connect(func(): bgm_player.play())
 	add_child(bgm_player)
 	
 	# Pre-allocate SFX players
@@ -84,8 +104,12 @@ func stop_bgm(fade_duration: float = 1.0) -> void:
 		bgm_player.stop()
 
 ## Plays a sound effect.
-## [param stream] can be an AudioStream or a resource path string.
+## [param stream] can be an AudioStream, a resource path string, or an Array of them.
 func play_sfx(stream: Variant, volume_db: float = 0.0, pitch_scale: float = 1.0) -> void:
+	if stream is Array:
+		play_random_sfx(stream, volume_db, pitch_scale)
+		return
+		
 	var audio_stream: AudioStream = _get_stream(stream)
 	if not audio_stream:
 		return

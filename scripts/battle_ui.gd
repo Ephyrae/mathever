@@ -289,4 +289,11 @@ func _on_retry_pressed() -> void:
 	retry_button.hide()
 	restore_ui_visibility()
 	retry_requested.emit()
-	SoundManager.play_bgm(SoundManager.BGM_VILLAGE,-10,0.5)
+	SoundManager.play_bgm(SoundManager.BGM_FIGHT,-20,0.5)
+
+# --- ADMIN BRIDGE METHOD ---
+
+func admin_trigger_flicker() -> void:
+	is_glitch_curse_active = true
+	update_curse("ADMIN FLICKER")
+	show_message("Flicker Curse Triggered!")
